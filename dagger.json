@@ -1,0 +1,6 @@
+{
+  "name": "php",
+  "sdk": "github.com/carnage/dagger/sdk/php@add-php-runtime",
+  "source": "dagger",
+  "engineVersion": "v0.11.8"
+}
