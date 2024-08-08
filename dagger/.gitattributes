@@ -1,1 +1,3 @@
 //codegen/generated/** linguist-generated
+/sdk/** linguist-generated
+/entrypoint.php linguist-generated
