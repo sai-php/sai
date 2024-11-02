@@ -25,7 +25,7 @@ final class NginxContainerInfo implements \JsonSerializable
         }
 
         if ($this->variant === null) {
-            return sprintf('nginx:%s-%s', $os, $this->version);
+            return sprintf('nginx:%s-%s', $this->version, $os);
         }
 
         return sprintf('php:%s-%s-%s', $this->version, $this->variant, $os);
