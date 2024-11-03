@@ -32,7 +32,7 @@ final class NginxContainer
     #[DaggerFunction('Add config template to the container')]
     public function withConfigTemplate(File $configTemplate): NginxContainer
     {
-        $container = $this->baseContainer->withFile('/etc/nginx/templates/', $configTemplate);
+        $container = $this->baseContainer->withFile('/etc/nginx/templates/' . $configTemplate->name(), $configTemplate);
 
         return new NginxContainer($container);
     }
