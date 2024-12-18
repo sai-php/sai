@@ -20,7 +20,7 @@ final class NginxContainerInfo implements \JsonSerializable
     public function getTag(): string
     {
         $os = $this->os;
-        if ($this->os === 'debiian') {
+        if ($this->os === 'debian') {
             $os = 'bookworm';
         }
 
@@ -28,7 +28,7 @@ final class NginxContainerInfo implements \JsonSerializable
             return sprintf('nginx:%s-%s', $this->version, $os);
         }
 
-        return sprintf('php:%s-%s-%s', $this->version, $this->variant, $os);
+        return sprintf('nginx:%s-%s-%s', $this->version, $this->variant, $os);
     }
 
     private function validateOS(string $os): void
