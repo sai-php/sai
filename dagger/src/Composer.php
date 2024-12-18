@@ -34,10 +34,8 @@ final class Composer
         ;
 
         if ($composerLock !== null) {
-            $container = $container->withMountedFile('/tmp/dependencies/composer.json', $composerLock);
+            $container = $container->withMountedFile('/tmp/dependencies/composer.lock', $composerLock);
         }
-
-
 
         //@TODO add parameters to this function which allow passing common options to composer.
         //Ignore platform seems useless as it should be running inside a container with all dependencies
