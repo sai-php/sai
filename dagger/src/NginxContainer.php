@@ -21,7 +21,7 @@ final class NginxContainer
     #[DaggerFunction('Add application code to container')]
     public function withAppCode(Directory $appCode, string $path = '/app'): NginxContainer
     {
-        $container = $this->baseContainer->withExec($this->cmd('mkdir -p ' . $path))
+        $container = $this->baseContainer->withExec(Util::cmd('mkdir -p ' . $path))
             ->withDirectory($path, $appCode)
             ->withWorkdir($path)
             ->withLabel(AppCodePath::LABEL, (string) (new AppCodePath($path)));
@@ -41,10 +41,5 @@ final class NginxContainer
     public function container(): Container
     {
         return $this->baseContainer;
-    }
-
-    private function cmd(string $cmd)
-    {
-        return ["/bin/sh", "-c", $cmd];
     }
 }
