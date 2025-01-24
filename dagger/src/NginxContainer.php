@@ -22,7 +22,8 @@ final class NginxContainer
     public function withAppCode(Directory $appCode, string $path = '/app'): NginxContainer
     {
         $container = $this->baseContainer->withExec(Util::cmd('mkdir -p ' . $path))
-            ->withDirectory($path, $appCode)
+            ->withExec(Util::cmd('chown nginx:nginx ' . $path))
+            ->withDirectory($path, $appCode, owner: "nginx:nginx")
             ->withWorkdir($path)
             ->withLabel(AppCodePath::LABEL, (string) (new AppCodePath($path)));
 

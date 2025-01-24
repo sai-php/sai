@@ -104,7 +104,8 @@ final class PHPContainer
     public function withAppCode(Directory $appCode, string $path = '/app'): PHPContainer
     {
         $container = $this->baseContainer->withExec(Util::cmd('mkdir -p ' . $path))
-            ->withDirectory($path, $appCode)
+            ->withExec(Util::cmd('chown www-data:www-data ' . $path))
+            ->withDirectory($path, $appCode, owner: "www-data:www-data")
             ->withWorkdir($path)
             ->withLabel(AppCodePath::LABEL, (string) (new AppCodePath($path)));
 
