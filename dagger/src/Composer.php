@@ -30,11 +30,11 @@ final class Composer
     {
         $container = $this->container->withExec(Util::cmd('mkdir -p /tmp/dependencies/'))
             ->withWorkdir('/tmp/dependencies')
-            ->withMountedFile('/tmp/dependencies/composer.json', $composerJson)
+            ->withFile('/tmp/dependencies/composer.json', $composerJson)
         ;
 
         if ($composerLock !== null) {
-            $container = $container->withMountedFile('/tmp/dependencies/composer.lock', $composerLock);
+            $container = $container->withFile('/tmp/dependencies/composer.lock', $composerLock);
         }
 
         //@TODO add parameters to this function which allow passing common options to composer.
