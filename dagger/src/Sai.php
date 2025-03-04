@@ -74,4 +74,16 @@ final class Sai
 
         return new NginxContainer($baseContainer);
     }
+
+    #[DaggerFunction]
+    public function qaTools(?Container $container = null): QaTools
+    {
+        if ($container === null) {
+            $phpContainer = $this->php();
+        } else {
+            $phpContainer = $this->adoptPHPContainer($container);
+        }
+
+        return new QaTools($phpContainer);
+    }
 }
