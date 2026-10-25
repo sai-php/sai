@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DaggerModule;
 
-use Dagger\Attribute\Argument;
+use Dagger\Attribute\Doc;
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
 
@@ -20,11 +20,11 @@ final class Sai
 {
     #[DaggerFunction]
     public function php(
-        #[Argument('PHP Version to use')]
-        string $version = '8.3',
-        #[Argument('OS Version to use, valid options: alpine, debian')]
+        #[Doc('PHP Version to use')]
+        string $version = '8.5',
+        #[Doc('OS Version to use, valid options: alpine, debian')]
         string $os = 'alpine',
-        #[Argument('Image variant, valid options: apache, cli, fpm, zts')]
+        #[Doc('Image variant, valid options: apache, cli, fpm, zts')]
         string $variant = 'cli',
     ): PHPContainer {
 
@@ -53,11 +53,11 @@ final class Sai
 
     #[DaggerFunction]
     public function nginx(
-        #[Argument('Nginx Version to use')]
-        string $version = '1.27',
-        #[Argument('OS Version to use, valid options: alpine, debian, bookworm')]
+        #[Doc('Nginx Version to use')]
+        string $version = '1.31',
+        #[Doc('OS Version to use, valid options: alpine, trixie')]
         string $os = 'alpine',
-        #[Argument('Image variant, valid options: slim, perl, otel')]
+        #[Doc('Image variant, valid options: slim, perl, otel')]
         ?string $variant = null,
     ): NginxContainer
     {

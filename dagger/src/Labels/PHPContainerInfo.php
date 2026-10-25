@@ -24,13 +24,19 @@ final class PHPContainerInfo implements \JsonSerializable
 
     public function getTag(): string
     {
-        return sprintf('php:%s-%s-%s', $this->version, $this->variant, $this->os);
+        $tag = sprintf('php:%s-%s', $this->version, $this->variant);
+
+        if ($this->os !== 'debian') {
+            $tag .= sprintf('-%s', $this->os);
+        }
+
+        return $tag;
     }
 
     private function validateOS(string $os): void
     {
         match ($os) {
-            'debian', 'alpine' => null,
+            'debian', 'bookworm', 'trixie', 'alpine', 'alpine3.23', 'alpine3.24'  => null,
             default => throw new \InvalidArgumentException('Invalid option for OS argument')
         };
     }

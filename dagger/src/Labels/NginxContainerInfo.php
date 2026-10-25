@@ -19,22 +19,23 @@ final class NginxContainerInfo implements \JsonSerializable
 
     public function getTag(): string
     {
-        $os = $this->os;
-        if ($this->os === 'debian') {
-            $os = 'bookworm';
+        $tag = sprintf('nginx:%s', $this->version);
+
+        if ($this->os !== 'debian') {
+            $tag .= sprintf('-%s', $this->os);
         }
 
-        if ($this->variant === null) {
-            return sprintf('nginx:%s-%s', $this->version, $os);
+        if ($this->variant !== null) {
+            $tag .= sprintf('-%s', $this->variant);
         }
 
-        return sprintf('nginx:%s-%s-%s', $this->version, $this->variant, $os);
+        return $tag;
     }
 
     private function validateOS(string $os): void
     {
         match ($os) {
-            'debian', 'alpine', 'bookworm' => null,
+            'debian', 'bookworm', 'trixie', 'alpine', 'alpine3.23', 'alpine3.24' => null,
             default => throw new \InvalidArgumentException('Invalid option for OS argument')
         };
     }

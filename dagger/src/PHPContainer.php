@@ -7,6 +7,8 @@ namespace DaggerModule;
 use Dagger\Attribute\Argument;
 use Dagger\Attribute\DaggerFunction;
 use Dagger\Attribute\DaggerObject;
+use Dagger\Attribute\Doc;
+use Dagger\Attribute\ListOfType;
 use Dagger\Container;
 
 use Dagger\Directory;
@@ -22,14 +24,23 @@ final class PHPContainer
     {
     }
 
-    #[DaggerFunction('Install a PHP extension into the container')]
+    #[DaggerFunction('Install a single PHP extension into the container')]
     public function withExtension(
-        #[Argument]
         string $extension
+    ): PHPContainer {
+        return $this->withExtensions([$extension]);
+    }
+
+    #[DaggerFunction('Install multiple PHP extensions into the container')]
+    public function withExtensions(
+        #[ListOfType('string')]
+        array $extensions
     ): PHPContainer {
         $containerInfo = PHPContainerInfo::fromContainer($this->baseContainer);
 
-        if (in_array($extension, $containerInfo->extensions)) {
+        $extensions = array_diff($extensions, $containerInfo->extensions);
+
+        if (empty($extensions)) {
             return $this;
         }
 
@@ -46,10 +57,10 @@ final class PHPContainer
             $containerInfo->hasExtensionInstaller = true;
         }
 
-        $containerInfo->extensions[] = $extension;
+        $containerInfo->extensions = array_values(array_merge($containerInfo->extensions, $extensions));
 
         $container = $container
-            ->withExec(Util::cmd('install-php-extensions ' . $extension))
+            ->withExec(['install-php-extensions ', ...$extensions])
             ->withLabel(PHPContainerInfo::LABEL, (string) $containerInfo);
 
         return new PHPContainer($container);
@@ -57,9 +68,8 @@ final class PHPContainer
 
     #[DaggerFunction('Install composer into the container, useful if you need a container with composer in it, but to run composer commands see the composer() function.')]
     public function withComposer(
-        #[Argument]
         string $composerVersion = "2",
-        #[Argument('Dagger cache name to mount for the composer cache to speed up builds')]
+        #[Doc('Dagger cache name to mount for the composer cache to speed up builds')]
         string $composerCacheName="sai-composer-cache"
     ): PHPContainer {
         $containerInfo = PHPContainerInfo::fromContainer($this->baseContainer);
@@ -89,9 +99,9 @@ final class PHPContainer
 
     #[DaggerFunction('Returns a composer object which can operate with your container')]
     public function composer(
-        #[Argument('Composer version to use, suggested values are 1 or 2 however any valid composer docker tag name is accepted.')]
+        #[Doc('Composer version to use, suggested values are 1 or 2 however any valid composer docker tag name is accepted.')]
         string $composerVersion = "2",
-        #[Argument('Dagger cache name to mount for the composer cache to speed up builds.')]
+        #[Doc('Dagger cache name to mount for the composer cache to speed up builds.')]
         string $composerCacheName="sai-composer-cache"
     ): Composer {
         $container = $this->withComposer($composerVersion, $composerCacheName)

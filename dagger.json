@@ -1,8 +1,9 @@
 {
   "name": "sai",
-  "engineVersion": "v0.15.4",
+  "engineVersion": "v0.21.7",
   "sdk": {
     "source": "php"
   },
-  "source": "dagger"
+  "source": "dagger",
+  "disableDefaultFunctionCaching": true
 }
