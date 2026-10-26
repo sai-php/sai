@@ -60,7 +60,7 @@ final class PHPContainer
         $containerInfo->extensions = array_values(array_merge($containerInfo->extensions, $extensions));
 
         $container = $container
-            ->withExec(['install-php-extensions ', ...$extensions])
+            ->withExec(['install-php-extensions', ...$extensions])
             ->withLabel(PHPContainerInfo::LABEL, (string) $containerInfo);
 
         return new PHPContainer($container);
